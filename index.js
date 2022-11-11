@@ -1,0 +1,25 @@
+const express = require("express");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const app = express();
+dotenv.config({ path: "./config.env" });
+
+
+app.use(express.json());
+
+const router = require("./route")
+
+
+app.use("/api/v1/todos", router);
+const db = () => {
+    mongoose.connect(process.env.DB_URL);
+ };
+
+ db()
+ mongoose.connection.once("open", () => {
+   console.log("Connected To Database!");
+ });
+
+app.listen(process.env.PORT || 2013, () => {
+  console.log("APP IS LISTENING ON PORT " + process.env.DB_PORT);
+});
